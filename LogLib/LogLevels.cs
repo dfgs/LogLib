@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace LogLib
 {
-    public class Class1
-    {
-    }
+	public enum LogLevels { Debug,Information,Warning,Error,Fatal};
 }

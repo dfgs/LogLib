@@ -6,25 +6,23 @@ using System.Threading.Tasks;
 
 namespace LogLib
 {
-	public class ConsoleLogger : ILogger
+	public class ConsoleLogger : BaseLogger
 	{
 		private string locker = "locker";
 
-		public ILogFormatter Formatter
+		
+
+		public ConsoleLogger(ILogFormatter Formatter):base(Formatter)
 		{
-			get;
-			private set;
 		}
 
-		public ConsoleLogger(ILogFormatter Formatter)
+		public override void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
 		{
-			this.Formatter = Formatter;
-		}
+			ConsoleColor colorBackup;
 
-		public void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
-		{
 			lock(locker)
 			{
+				colorBackup = Console.ForegroundColor;
 				switch(Level)
 				{
 					case LogLevels.Debug:
@@ -44,23 +42,11 @@ namespace LogLib
 						break;
 				}
 				Console.WriteLine(Formatter.Format(DateTime.Now,ComponentID,ComponentName,MethodName,Level,Message));
+				Console.ForegroundColor = colorBackup;
 			}
 		}
 
-		public void Log(int ComponentID, string ComponentName, string MethodName, Exception ex)
-		{
-			Log(ComponentID, ComponentName, MethodName, LogLevels.Error, ex.Message);
-		}
-
-		public void LogEnter(int ComponentID, string ComponentName, string MethodName)
-		{
-			Log(ComponentID, ComponentName, MethodName, LogLevels.Debug, "Enter");
-		}
-
-		public void LogLeave(int ComponentID, string ComponentName, string MethodName)
-		{
-			Log(ComponentID, ComponentName, MethodName, LogLevels.Debug, "Leave");
-		}
+		
 
 	}
 }

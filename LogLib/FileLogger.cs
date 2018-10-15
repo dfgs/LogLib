@@ -14,9 +14,12 @@ namespace LogLib
 
 		private StreamWriter writer;
 
-		public FileLogger(ILogFormatter Formatter,string FileName) : base(Formatter)
+		public FileLogger(ILogFormatter Formatter, string FileName) : this(Formatter, new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Read))
 		{
-			writer = new StreamWriter(new FileStream(FileName, FileMode.Create,FileAccess.Write, FileShare.Read));
+		}
+		public FileLogger(ILogFormatter Formatter, Stream Stream) : base(Formatter)
+		{
+			writer = new StreamWriter(Stream);
 		}
 
 		public override void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)

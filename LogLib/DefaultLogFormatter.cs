@@ -10,7 +10,7 @@ namespace LogLib
 	{
 		public string Format(DateTime Date, int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
 		{
-			return $"{DateTime.Now} | {Level} | {ComponentID} | {ComponentName} | {MethodName} | {Message}";
+			return $"{DateTime.Now} | {Level} | {ComponentID} | {ComponentName??"Undefined"} | {MethodName ?? "Undefined"} | {Message ?? "Undefined"}";
 		}
 	}
 }

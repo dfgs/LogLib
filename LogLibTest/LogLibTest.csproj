@@ -51,7 +51,11 @@
     <Compile Include="ConsoleLoggerUnitTest.cs" />
     <Compile Include="DefaultLogFormatterUnitTest.cs" />
     <Compile Include="FileLoggerUnitTest.cs" />
+    <Compile Include="Mocks\MockedFormatter.cs" />
+    <Compile Include="Mocks\MockedLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TryFunctionUnitTest.cs" />
+    <Compile Include="TryActionUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

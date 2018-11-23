@@ -46,8 +46,15 @@
     <Compile Include="FileLogger.cs" />
     <Compile Include="ILogFormatter.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="ITryFunction.cs" />
+    <Compile Include="ITryAction.cs" />
+    <Compile Include="ITry.cs" />
     <Compile Include="LogLevels.cs" />
+    <Compile Include="NullLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Try.cs" />
+    <Compile Include="TryFunction.cs" />
+    <Compile Include="TryAction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

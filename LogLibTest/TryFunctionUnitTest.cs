@@ -19,13 +19,13 @@ namespace LogLibTest
 			t = new TryFunction<int>(logger, 1, "TestUnit", "TestMethod", () => 1234);
 		  	Assert.AreEqual(1234, t.OrThrow("Failure"));
 			Assert.AreEqual(0, logger.Logs.Count);
-			Assert.AreEqual(true, t.OrLog(out result,"Failure"));
+			Assert.AreEqual(true, t.OrAlert(out result,"Failure"));
 			Assert.AreEqual(1234, result);
 			Assert.AreEqual(0, logger.Logs.Count);
 		}
 
 		[TestMethod]
-		public void ShouldLogOnException()
+		public void ShouldAlertOnException()
 		{
 			TryFunction<int> t;
 			MockedLogger logger;
@@ -33,14 +33,14 @@ namespace LogLibTest
 
 			logger = new MockedLogger();
 			t = new TryFunction<int>(logger, 1, "TestUnit", "TestMethod", () => throw new InvalidCastException("Failure"));
-			Assert.AreEqual(false,t.OrLog(out result,"Failure"));
+			Assert.AreEqual(false,t.OrAlert(out result,"Failure"));
 			Assert.AreEqual(0, result);
 			Assert.AreEqual(1, logger.Logs.Count);
-			Assert.AreEqual("An unexpected exception occured: Failure", logger.Logs[0]);
+			Assert.AreEqual("Error: An unexpected exception occured: Failure", logger.Logs[0]);
 		}
 
 		[TestMethod]
-		public void ShouldLogOnExceptionUsingCustomFormat()
+		public void ShouldAlertOnExceptionUsingCustomFormat()
 		{
 			TryFunction<int> t;
 			MockedLogger logger;
@@ -48,12 +48,41 @@ namespace LogLibTest
 
 			logger = new MockedLogger();
 			t = new TryFunction<int>(logger, 1, "TestUnit", "TestMethod", () => throw new InvalidCastException("Failure"));
-			Assert.AreEqual(false,t.OrLog(out result, (Ex)=>"Formatted Failure"));
+			Assert.AreEqual(false,t.OrAlert(out result, (Ex)=>"Formatted Failure"));
 			Assert.AreEqual(0, result);
 			Assert.AreEqual(1, logger.Logs.Count);
-			Assert.AreEqual("Formatted Failure", logger.Logs[0]);
+			Assert.AreEqual("Error: Formatted Failure", logger.Logs[0]);
 		}
 
+		[TestMethod]
+		public void ShouldWarnOnException()
+		{
+			TryFunction<int> t;
+			MockedLogger logger;
+			int result;
+
+			logger = new MockedLogger();
+			t = new TryFunction<int>(logger, 1, "TestUnit", "TestMethod", () => throw new InvalidCastException("Failure"));
+			Assert.AreEqual(false, t.OrWarn(out result, "Failure"));
+			Assert.AreEqual(0, result);
+			Assert.AreEqual(1, logger.Logs.Count);
+			Assert.AreEqual("Warning: An unexpected exception occured: Failure", logger.Logs[0]);
+		}
+
+		[TestMethod]
+		public void ShouldWarnOnExceptionUsingCustomFormat()
+		{
+			TryFunction<int> t;
+			MockedLogger logger;
+			int result;
+
+			logger = new MockedLogger();
+			t = new TryFunction<int>(logger, 1, "TestUnit", "TestMethod", () => throw new InvalidCastException("Failure"));
+			Assert.AreEqual(false, t.OrWarn(out result, (Ex) => "Formatted Failure"));
+			Assert.AreEqual(0, result);
+			Assert.AreEqual(1, logger.Logs.Count);
+			Assert.AreEqual("Warning: Formatted Failure", logger.Logs[0]);
+		}
 
 		[TestMethod]
 		public void ShouldThrowOnException()

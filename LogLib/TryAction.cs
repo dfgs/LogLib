@@ -21,11 +21,6 @@ namespace LogLib
 			OrThrow((Ex) => new Exception(Message, Ex));
 		}
 
-		public bool OrLog(string Message)
-		{
-			return OrLog((Ex) => $"An unexpected exception occured: {Ex.Message}");
-		}
-
 
 		public void OrThrow(Func<Exception, Exception> ExceptionFactory)
 		{
@@ -38,8 +33,18 @@ namespace LogLib
 				throw ExceptionFactory(ex);
 			}
 		}
+		public bool OrAlert(string Message)
+		{
+			return OrAlert((Ex) => $"An unexpected exception occured: {Ex.Message}");
+		}
 
-		public bool OrLog(Func<Exception, string> MessageFactory)
+		public bool OrWarn(string Message)
+		{
+			return OrWarn((Ex) => $"An unexpected exception occured: {Ex.Message}");
+		}
+
+
+		public bool OrAlert(Func<Exception, string> MessageFactory)
 		{
 			try
 			{
@@ -52,7 +57,19 @@ namespace LogLib
 				return false;
 			}
 		}
-
+		public bool OrWarn(Func<Exception, string> MessageFactory)
+		{
+			try
+			{
+				action();
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Logger.Log(ComponentID, ComponentName, MethodName, LogLevels.Warning, MessageFactory(ex));
+				return false;
+			}
+		}
 
 	}
 }

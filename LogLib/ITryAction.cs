@@ -11,9 +11,11 @@ namespace LogLib
 		void OrThrow(string Message);
 		void OrThrow(Func<Exception, Exception> ExceptionFactory);
 
-		bool OrLog(string Message);
-		bool OrLog(Func<Exception, string> MessageFactory);
+		bool OrAlert(string Message);
+		bool OrAlert(Func<Exception, string> MessageFactory);
 
+		bool OrWarn(string Message);
+		bool OrWarn(Func<Exception, string> MessageFactory);
 
 	}
 }

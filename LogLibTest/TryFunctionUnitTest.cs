@@ -36,7 +36,7 @@ namespace LogLibTest
 			Assert.AreEqual(false,t.OrAlert(out result,"Failure"));
 			Assert.AreEqual(0, result);
 			Assert.AreEqual(1, logger.Logs.Count);
-			Assert.AreEqual("Error: An unexpected exception occured: Failure", logger.Logs[0]);
+			Assert.AreEqual("Error: An unexpected exception occured: ->Failure", logger.Logs[0]);
 		}
 
 		[TestMethod]
@@ -66,7 +66,7 @@ namespace LogLibTest
 			Assert.AreEqual(false, t.OrWarn(out result, "Failure"));
 			Assert.AreEqual(0, result);
 			Assert.AreEqual(1, logger.Logs.Count);
-			Assert.AreEqual("Warning: An unexpected exception occured: Failure", logger.Logs[0]);
+			Assert.AreEqual("Warning: An unexpected exception occured: ->Failure", logger.Logs[0]);
 		}
 
 		[TestMethod]

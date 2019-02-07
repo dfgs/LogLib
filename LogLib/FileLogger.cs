@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace LogLib
 {
-	public class FileLogger : BaseLogger
+	public sealed class FileLogger : BaseLogger,IDisposable
 	{
-		private string locker = "locker";
+		private readonly object locker = new object();
 
 
-		private StreamWriter writer;
+		private readonly StreamWriter writer;
 
 		public FileLogger(ILogFormatter Formatter, string FileName) : this(Formatter, new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Read))
 		{
@@ -20,6 +20,11 @@ namespace LogLib
 		public FileLogger(ILogFormatter Formatter, Stream Stream) : base(Formatter)
 		{
 			writer = new StreamWriter(Stream);
+		}
+
+		public void Dispose()
+		{
+			writer.Dispose();
 		}
 
 		public override void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)

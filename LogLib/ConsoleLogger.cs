@@ -8,7 +8,7 @@ namespace LogLib
 {
 	public class ConsoleLogger : BaseLogger
 	{
-		private string locker = "locker";
+		private readonly object locker = new object();
 
 		
 

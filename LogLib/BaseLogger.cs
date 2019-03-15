@@ -9,7 +9,7 @@ namespace LogLib
 	public abstract class BaseLogger : ILogger
 	{
 
-		public ILogFormatter Formatter
+		protected ILogFormatter Formatter
 		{
 			get;
 			private set;

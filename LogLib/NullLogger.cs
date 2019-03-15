@@ -8,8 +8,7 @@ namespace LogLib
 {
 	public sealed class NullLogger : ILogger
 	{
-		private static ILogFormatter formatter = new DefaultLogFormatter();
-		public ILogFormatter Formatter => formatter;
+		
 
 		private static NullLogger instance=new NullLogger();
 		public static NullLogger Instance

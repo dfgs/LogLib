@@ -8,10 +8,10 @@ namespace LogLib
 {
 	public interface ILogger
 	{
-		ILogFormatter Formatter
+		/*ILogFormatter Formatter
 		{
 			get;
-		}
+		}*/
 
 		void LogEnter(int ComponentID, string ComponentName,string MethodName);
 		void LogLeave(int ComponentID, string ComponentName, string MethodName);

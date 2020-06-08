@@ -31,6 +31,7 @@ namespace LogLib
 			}
 			catch (Exception ex)
 			{
+				Logger.Log(ComponentID, ComponentName, MethodName, LogLevels.Error, ExceptionFormatter.Format(ex));
 				throw ExceptionFactory(ex);
 			}
 		}

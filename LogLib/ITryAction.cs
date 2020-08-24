@@ -9,6 +9,8 @@ namespace LogLib
 	public interface ITryAction:ITry
 	{
 		void OrThrow(string Message);
+		void OrThrow<TException>(string Message)
+			where TException:TryException;
 		void OrThrow(ExceptionFactoryDelegate ExceptionFactory);
 
 		bool OrAlert(string Message);

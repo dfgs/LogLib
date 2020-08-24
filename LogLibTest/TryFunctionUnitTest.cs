@@ -135,6 +135,47 @@ namespace LogLibTest
 			Assert.AreEqual(1, logger.Logs.Count);
 		}
 
+		[TestMethod]
+		public void ShouldThrowOnExceptionUsingCustomGenericException()
+		{
+			TryFunction<int> t;
+			MockedLogger logger;
+			int result;
+
+			logger = new MockedLogger();
+			t = new TryFunction<int>(logger, 1, "TestUnit", "TestMethod", () => throw new InvalidCastException("Failure"));
+			Assert.ThrowsException<TestException>(() => result = t.OrThrow<TestException>("Failure"));
+			Assert.AreEqual(1, logger.Logs.Count);
+		}
+
+
+		[TestMethod]
+		public void ShouldThrowOnExceptionUsingCustomGenericExceptionAndContainsValidInformation()
+		{
+			TryFunction<int> t;
+			MockedLogger logger;
+			int result;
+
+			logger = new MockedLogger();
+			t = new TryFunction<int>(logger, 1, "TestUnit", "TestMethod", () => throw new InvalidCastException("Failure"));
+			try
+			{
+				result = t.OrThrow<TestException>("Failure");
+				Assert.Fail();
+			}
+			catch (TestException ex)
+			{
+				Assert.IsNotNull(ex.InnerException);
+				Assert.IsInstanceOfType(ex.InnerException, typeof(InvalidCastException));
+				Assert.AreEqual(1, ex.ComponentID);
+				Assert.AreEqual("TestUnit", ex.ComponentName);
+				Assert.AreEqual("TestMethod", ex.MethodName);
+			}
+			Assert.AreEqual(1, logger.Logs.Count);
+		}
+
+
+
 
 	}
 }

@@ -34,6 +34,20 @@ namespace LogLib
 				throw ExceptionFactory(ex,ComponentID,ComponentName,MethodName);
 			}
 		}
+		public void OrThrow<TException>(string Message)
+			where TException:TryException
+		{
+			try
+			{
+				action();
+			}
+			catch (Exception ex)
+			{
+				Logger.Log(ComponentID, ComponentName, MethodName, LogLevels.Error, ExceptionFormatter.Format(ex));
+				throw (TException)Activator.CreateInstance(typeof(TException), Message, ex, ComponentID, ComponentName, MethodName);
+			}
+		}
+
 		public bool OrAlert(string Message)
 		{
 			return OrAlert((Ex) => $"An unexpected exception occured: {ExceptionFormatter.Format(Ex)}");

@@ -10,6 +10,8 @@ namespace LogLib
 	public delegate Exception ExceptionFactoryDelegate(Exception InnerException, int ComponentID, string ComponentName, string MethodName);
 	public class TryException:Exception
 	{
+		
+
 		public int ComponentID
 		{
 			get;
@@ -33,6 +35,6 @@ namespace LogLib
 			this.ComponentID = ComponentID; this.ComponentName = ComponentName; this.MethodName = MethodName;
 		}
 
-
+		
 	}
 }

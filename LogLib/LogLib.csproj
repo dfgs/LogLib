@@ -56,6 +56,7 @@
     <Compile Include="NullLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Try.cs" />
+    <Compile Include="TryException.cs" />
     <Compile Include="TryFunction.cs" />
     <Compile Include="TryAction.cs" />
   </ItemGroup>

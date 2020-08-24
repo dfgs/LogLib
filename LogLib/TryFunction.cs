@@ -18,12 +18,12 @@ namespace LogLib
 
 		public T OrThrow(string Message)
 		{
-			return OrThrow((Ex) => new Exception(Message, Ex));
+			return OrThrow((Ex, ComponentID, ComponentName, MethodName) => new TryException(Message, Ex, ComponentID, ComponentName, MethodName));
 		}
 
 
 
-		public T OrThrow(Func<Exception, Exception> ExceptionFactory)
+		public T OrThrow(ExceptionFactoryDelegate ExceptionFactory)
 		{
 			try
 			{
@@ -32,7 +32,7 @@ namespace LogLib
 			catch (Exception ex)
 			{
 				Logger.Log(ComponentID, ComponentName, MethodName, LogLevels.Error, ExceptionFormatter.Format(ex));
-				throw ExceptionFactory(ex);
+				throw ExceptionFactory(ex, ComponentID, ComponentName, MethodName);
 			}
 		}
 

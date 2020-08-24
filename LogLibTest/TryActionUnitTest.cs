@@ -83,8 +83,8 @@ namespace LogLibTest
 
 			logger = new MockedLogger();
 			t = new TryAction(logger, 1, "TestUnit", "TestMethod", () => throw new InvalidCastException("Failure"));
-			Assert.ThrowsException<Exception>(() => t.OrThrow("Failure"));
-			Assert.AreEqual(0, logger.Logs.Count);
+			Assert.ThrowsException<TryException>(() => t.OrThrow("Failure"));
+			Assert.AreEqual(1, logger.Logs.Count);
 		}
 
 		[TestMethod]
@@ -95,8 +95,8 @@ namespace LogLibTest
 
 			logger = new MockedLogger();
 			t = new TryAction(logger, 1, "TestUnit", "TestMethod", () => throw new InvalidCastException("Failure"));
-			Assert.ThrowsException<InvalidOperationException>(() => t.OrThrow( (Ex)=>new InvalidOperationException("Failure",Ex)));
-			Assert.AreEqual(0, logger.Logs.Count);
+			Assert.ThrowsException<InvalidOperationException>(() => t.OrThrow( (Ex,ComponentID,ComponentName,MethodName)=>new InvalidOperationException("Failure",Ex)));
+			Assert.AreEqual(1, logger.Logs.Count);
 		}
 
 

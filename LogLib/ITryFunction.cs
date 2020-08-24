@@ -9,7 +9,7 @@ namespace LogLib
 	public interface ITryFunction<T>:ITry
 	{
 		T OrThrow(string Message);
-		T OrThrow(Func<Exception, Exception> ExceptionFactory);
+		T OrThrow(ExceptionFactoryDelegate ExceptionFactory);
 
 		bool OrAlert(out T Result,string Message);
 		bool OrAlert(out T Result, Func<Exception, string> MessageFactory);

@@ -98,6 +98,31 @@ namespace LogLibTest
 		}
 
 		[TestMethod]
+		public void ShouldThrowOnExceptionAndContainsValidInformation()
+		{
+			TryFunction<int> t;
+			MockedLogger logger;
+			int result;
+
+			logger = new MockedLogger();
+			t = new TryFunction<int>(logger, 1, "TestUnit", "TestMethod", () => throw new InvalidCastException("Failure"));
+			try
+			{
+				result=t.OrThrow("Failure");
+				Assert.Fail();
+			}
+			catch (TryException ex)
+			{
+				Assert.IsNotNull(ex.InnerException);
+				Assert.IsInstanceOfType(ex.InnerException, typeof(InvalidCastException));
+				Assert.AreEqual(1, ex.ComponentID);
+				Assert.AreEqual("TestUnit", ex.ComponentName);
+				Assert.AreEqual("TestMethod", ex.MethodName);
+			}
+			Assert.AreEqual(1, logger.Logs.Count);
+		}
+
+		[TestMethod]
 		public void ShouldThrowOnExceptionUsingCustomException()
 		{
 			TryFunction<int> t;

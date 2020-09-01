@@ -50,12 +50,12 @@ namespace LogLib
 
 		public bool OrAlert(string Message)
 		{
-			return OrAlert((Ex) => $"An unexpected exception occured: {ExceptionFormatter.Format(Ex)}");
+			return OrAlert((Ex) => $"{Message}: {ExceptionFormatter.Format(Ex)}");
 		}
 
 		public bool OrWarn(string Message)
 		{
-			return OrWarn((Ex) => $"An unexpected exception occured: {ExceptionFormatter.Format(Ex)}");
+			return OrWarn((Ex) => $"{Message}: {ExceptionFormatter.Format(Ex)}");
 		}
 
 

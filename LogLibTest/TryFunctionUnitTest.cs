@@ -33,10 +33,10 @@ namespace LogLibTest
 
 			logger = new MockedLogger();
 			t = new TryFunction<int>(logger, 1, "TestUnit", "TestMethod", () => throw new InvalidCastException("Failure"));
-			Assert.AreEqual(false,t.OrAlert(out result,"Failure"));
+			Assert.AreEqual(false,t.OrAlert(out result, "Failure message"));
 			Assert.AreEqual(0, result);
 			Assert.AreEqual(1, logger.Logs.Count);
-			Assert.AreEqual("Error: An unexpected exception occured: ->Failure", logger.Logs[0]);
+			Assert.AreEqual("Error: Failure message: ->Failure", logger.Logs[0]);
 		}
 
 		[TestMethod]
@@ -63,10 +63,10 @@ namespace LogLibTest
 
 			logger = new MockedLogger();
 			t = new TryFunction<int>(logger, 1, "TestUnit", "TestMethod", () => throw new InvalidCastException("Failure"));
-			Assert.AreEqual(false, t.OrWarn(out result, "Failure"));
+			Assert.AreEqual(false, t.OrWarn(out result, "Failure message"));
 			Assert.AreEqual(0, result);
 			Assert.AreEqual(1, logger.Logs.Count);
-			Assert.AreEqual("Warning: An unexpected exception occured: ->Failure", logger.Logs[0]);
+			Assert.AreEqual("Warning: Failure message: ->Failure", logger.Logs[0]);
 		}
 
 		[TestMethod]

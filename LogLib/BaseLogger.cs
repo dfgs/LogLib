@@ -20,7 +20,13 @@ namespace LogLib
 			this.Formatter = Formatter;
 		}
 
-		public abstract void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message);
+		public abstract void Log(Log Log);
+		public void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
+		{
+			Log log;
+			log = new Log(DateTime.Now, ComponentID, ComponentName, MethodName, Level, Message);
+			Log(log);
+		}
 
 		public void Log(int ComponentID, string ComponentName, string MethodName, Exception ex)
 		{

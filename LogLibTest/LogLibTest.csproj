@@ -49,9 +49,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LogUnitTest.cs" />
     <Compile Include="Mocks\MockedMulticastReceiver.cs" />
     <Compile Include="MulticastLoggerUnitTest.cs" />
-    <Compile Include="MemoryLogger.cs" />
+    <Compile Include="MemoryLoggerUnitTest.cs" />
     <Compile Include="ConsoleLoggerUnitTest.cs" />
     <Compile Include="DefaultLogFormatterUnitTest.cs" />
     <Compile Include="FileLoggerUnitTest.cs" />

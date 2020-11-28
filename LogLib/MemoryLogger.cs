@@ -25,11 +25,11 @@ namespace LogLib
 			logs = new List<string>();
 		}
 
-		public override void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
+		public override void Log(Log Log)
 		{
 			lock(locker)
 			{
-				logs.Add( Formatter.Format(DateTime.Now,ComponentID,ComponentName,MethodName,Level,Message));
+				logs.Add( Formatter.Format(Log));
 			}
 		}
 

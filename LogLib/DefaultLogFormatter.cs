@@ -8,9 +8,9 @@ namespace LogLib
 {
 	public class DefaultLogFormatter : ILogFormatter
 	{
-		public string Format(DateTime Date, int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
+		public string Format(Log Log)
 		{
-			return $"{DateTime.Now} | {Level} | {ComponentID} | {ComponentName??"Undefined"} | {MethodName ?? "Undefined"} | {Message ?? "Undefined"}";
+			return $"{Log.DateTime} | {Log.Level} | {Log.ComponentID} | {Log.ComponentName ??"Undefined"} | {Log.MethodName ?? "Undefined"} | {Log.Message ?? "Undefined"}";
 		}
 	}
 }

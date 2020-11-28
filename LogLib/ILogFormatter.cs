@@ -8,6 +8,6 @@ namespace LogLib
 {
 	public interface ILogFormatter
 	{
-		string Format(DateTime Date,int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message);
+		string Format(Log Log);
 	}
 }

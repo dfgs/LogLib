@@ -9,9 +9,9 @@ namespace LogLibTest.Mocks
 {
 	public class MockedFormatter : ILogFormatter
 	{
-		public string Format(DateTime Date, int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
+		public string Format(Log Log)
 		{
-			return Level.ToString() +": "+ Message;
+			return Log.Level.ToString() +": "+ Log.Message;
 		}
 	}
 }

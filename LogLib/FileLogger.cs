@@ -25,11 +25,11 @@ namespace LogLib
 			writer.Dispose();
 		}
 
-		public override void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
+		public override void Log(Log Log)
 		{
 			lock (locker)
 			{
-				writer.WriteLine(Formatter.Format(DateTime.Now, ComponentID, ComponentName, MethodName, Level, Message));
+				writer.WriteLine(Formatter.Format(Log));
 				writer.Flush();
 			}
 		}

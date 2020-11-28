@@ -20,6 +20,10 @@ namespace LogLib
 		{
 
 		}
+		public void Log(Log Log)
+		{
+
+		}
 		public void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
 		{
 		}

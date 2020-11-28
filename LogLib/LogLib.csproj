@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseLogger.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="MulticastLogger.cs" />
     <Compile Include="MemoryLogger.cs" />
     <Compile Include="ConsoleLogger.cs" />

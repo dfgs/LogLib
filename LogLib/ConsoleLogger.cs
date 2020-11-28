@@ -16,14 +16,14 @@ namespace LogLib
 		{
 		}
 
-		public override void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
+		public override void Log(Log Log)
 		{
 			ConsoleColor colorBackup;
 
 			lock(locker)
 			{
 				colorBackup = Console.ForegroundColor;
-				switch(Level)
+				switch(Log.Level)
 				{
 					case LogLevels.Debug:
 						Console.ForegroundColor = ConsoleColor.Gray;
@@ -41,7 +41,7 @@ namespace LogLib
 						Console.ForegroundColor = ConsoleColor.Magenta;
 						break;
 				}
-				Console.WriteLine(Formatter.Format(DateTime.Now,ComponentID,ComponentName,MethodName,Level,Message));
+				Console.WriteLine(Formatter.Format(Log));
 				Console.ForegroundColor = colorBackup;
 			}
 		}

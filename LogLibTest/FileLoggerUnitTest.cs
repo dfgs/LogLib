@@ -25,10 +25,12 @@ namespace LogLibTest
 
 				dateTime = DateTime.Now;
 				logger.Log(1, "Component", "Method", LogLevels.Debug, "Message");
+				logger.Log(new Log(dateTime,1, "Component", "Method", LogLevels.Debug, "Message"));
 			}
 			using (FileStream stream = new FileStream("log.txt", FileMode.Open))
 			{
 				reader = new StreamReader(stream);
+				Assert.AreEqual($"{dateTime} | Debug | 1 | Component | Method | Message", reader.ReadLine());
 				Assert.AreEqual($"{dateTime} | Debug | 1 | Component | Method | Message", reader.ReadLine());
 			}
 		}

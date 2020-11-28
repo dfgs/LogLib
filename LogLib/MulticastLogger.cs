@@ -42,14 +42,14 @@ namespace LogLib
 			client.Close();
 		}
 
-		public override void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
+		public override void Log(Log Log)
 		{
 			string log;
 			byte[] buffer;
 
 			lock (locker)
 			{
-				log = Formatter.Format(DateTime.Now, ComponentID, ComponentName, MethodName, Level, Message);
+				log = Formatter.Format(Log);
 				buffer = Encoding.Default.GetBytes(log);
 				client.Send(buffer,buffer.Length,remoteEndPoint);
 			}

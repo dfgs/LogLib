@@ -22,24 +22,30 @@ namespace LogLibTest.Mocks
 		{
 			Logs = new List<string>();
 		}
+		public void Log(Log Log)
+		{
+			Logs.Add(Formatter.Format(Log));
+		}
 		public void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
 		{
-			Logs.Add(Formatter.Format(DateTime.Now, ComponentID, ComponentName, MethodName, Level, Message));
+			Log log;
+			log = new Log(DateTime.Now, ComponentID, ComponentName, MethodName, Level, Message);
+			Log(log);
 		}
 
 		public void Log(int ComponentID, string ComponentName, string MethodName, Exception ex)
 		{
-			Logs.Add(Formatter.Format(DateTime.Now, ComponentID, ComponentName, MethodName, LogLevels.Error, ex.Message));
+			Log(ComponentID, ComponentName, MethodName, LogLevels.Error, ex.Message);
 		}
 
 		public void LogEnter(int ComponentID, string ComponentName, string MethodName)
 		{
-			Logs.Add(Formatter.Format(DateTime.Now, ComponentID, ComponentName, MethodName, LogLevels.Debug, "Enter"));
+			Log(ComponentID, ComponentName, MethodName, LogLevels.Debug, "Enter");
 		}
 
 		public void LogLeave(int ComponentID, string ComponentName, string MethodName)
 		{
-			Logs.Add(Formatter.Format(DateTime.Now, ComponentID, ComponentName, MethodName, LogLevels.Debug, "Leave"));
+			Log(ComponentID, ComponentName, MethodName, LogLevels.Debug, "Leave");
 		}
 
 

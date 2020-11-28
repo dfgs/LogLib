@@ -25,6 +25,9 @@ namespace LogLibTest
 			logger.Log(1, "Component", "Method", LogLevels.Debug, "Message 2");
 			Assert.AreEqual(2, logger.Count);
 			Assert.AreEqual(true, logger.Logs.ElementAt(1).Contains("Message 2"));
+			logger.Log(new Log(DateTime.Now,1, "Component", "Method", LogLevels.Debug, "Message 3"));
+			Assert.AreEqual(3, logger.Count);
+			Assert.AreEqual(true, logger.Logs.ElementAt(2).Contains("Message 3"));
 		}
 
 

@@ -30,8 +30,12 @@ namespace LogLibTest
 
 			dateTime = DateTime.Now;
 			logger.Log(1, "Component", "Method", LogLevels.Debug, "Message");
+
+			logger.Log(new Log(dateTime,1, "Component", "Method", LogLevels.Debug, "Message"));
+
 			writer.Flush();
 			stream.Seek(0, SeekOrigin.Begin);
+			Assert.AreEqual($"{dateTime} | Debug | 1 | Component | Method | Message", reader.ReadLine());
 			Assert.AreEqual($"{dateTime} | Debug | 1 | Component | Method | Message", reader.ReadLine());
 		}
 		[TestMethod]

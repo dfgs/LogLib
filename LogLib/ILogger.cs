@@ -15,6 +15,7 @@ namespace LogLib
 
 		void LogEnter(int ComponentID, string ComponentName,string MethodName);
 		void LogLeave(int ComponentID, string ComponentName, string MethodName);
+		void Log(Log Log);
 		void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message);
 		void Log(int ComponentID, string ComponentName, string MethodName, Exception ex);
 	}

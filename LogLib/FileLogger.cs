@@ -10,8 +10,6 @@ namespace LogLib
 	public sealed class FileLogger : BaseLogger,IDisposable
 	{
 		private readonly object locker = new object();
-
-
 		private readonly StreamWriter writer;
 
 		public FileLogger(ILogFormatter Formatter, string FileName) : this(Formatter, new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Read))

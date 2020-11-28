@@ -9,15 +9,11 @@ namespace LogLib
 	public abstract class BaseLogger : ILogger
 	{
 
-		protected ILogFormatter Formatter
-		{
-			get;
-			private set;
-		}
+		
 
-		public BaseLogger(ILogFormatter Formatter)
+		public BaseLogger()
 		{
-			this.Formatter = Formatter;
+		
 		}
 
 		public abstract void Log(Log Log);

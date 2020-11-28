@@ -16,7 +16,7 @@ namespace LogLib
 		private IPAddress multicastIPaddress;
 		private IPEndPoint remoteEndPoint ;
 
-		public MulticastLogger(ILogFormatter Formatter, IPAddress MulticastIPaddress, int Port) : base(Formatter)
+		public MulticastLogger(IPAddress MulticastIPaddress, int Port) : base()
 		{
 			IPEndPoint localEndPoint;
 
@@ -44,13 +44,11 @@ namespace LogLib
 
 		public override void Log(Log Log)
 		{
-			string log;
 			byte[] buffer;
 
 			lock (locker)
 			{
-				log = Formatter.Format(Log);
-				buffer = Encoding.Default.GetBytes(log);
+				buffer = Log.Serialize();
 				client.Send(buffer,buffer.Length,remoteEndPoint);
 			}
 		}

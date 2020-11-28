@@ -10,8 +10,8 @@ namespace LogLib
 	{
 		private readonly object locker = new object();
 
-		private List<string> logs;
-		public IEnumerable<string> Logs
+		private List<Log> logs;
+		public IEnumerable<Log> Logs
 		{
 			get { return logs; }
 		}
@@ -20,16 +20,16 @@ namespace LogLib
 			get { return logs.Count; }
 		}
 
-		public MemoryLogger(ILogFormatter Formatter):base(Formatter)
+		public MemoryLogger():base()
 		{
-			logs = new List<string>();
+			logs = new List<Log>();
 		}
 
 		public override void Log(Log Log)
 		{
 			lock(locker)
 			{
-				logs.Add( Formatter.Format(Log));
+				logs.Add( Log);
 			}
 		}
 

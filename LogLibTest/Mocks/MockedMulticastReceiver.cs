@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -17,7 +18,7 @@ namespace LogLibTest.Mocks
 
 		public AutoResetEvent ReceivedEvent;
 
-		public List<string> Logs
+		public List<Log> Logs
 		{
 			get;
 			set;
@@ -29,7 +30,7 @@ namespace LogLibTest.Mocks
 
 			ReceivedEvent = new AutoResetEvent(false);
 
-			Logs = new List<string>();
+			Logs = new List<Log>();
 
 			this.multicastIPaddress = MulticastIPaddress;
 			localEndPoint = new IPEndPoint(IPAddress.Any, Port);
@@ -58,7 +59,7 @@ namespace LogLibTest.Mocks
 			IPEndPoint sender = new IPEndPoint(0, 0);
 			Byte[] buffer = client.EndReceive(ar, ref sender);
 
-			Logs.Add(Encoding.Default.GetString(buffer)); 
+			Logs.Add(Log.Deserialize(buffer)); 
 
 			client.BeginReceive(new AsyncCallback(ReceivedCallback), null);
 			

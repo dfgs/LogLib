@@ -18,16 +18,16 @@ namespace LogLibTest
 		{
 			MemoryLogger logger;
 
-			logger = new MemoryLogger(new DefaultLogFormatter());
+			logger = new MemoryLogger();
 			logger.Log(1, "Component", "Method", LogLevels.Debug, "Message 1");
 			Assert.AreEqual(1, logger.Count);
-			Assert.AreEqual(true, logger.Logs.ElementAt(0).Contains("Message 1"));
+			Assert.AreEqual("Message 1", logger.Logs.ElementAt(0).Message);
 			logger.Log(1, "Component", "Method", LogLevels.Debug, "Message 2");
 			Assert.AreEqual(2, logger.Count);
-			Assert.AreEqual(true, logger.Logs.ElementAt(1).Contains("Message 2"));
+			Assert.AreEqual("Message 2", logger.Logs.ElementAt(1).Message);
 			logger.Log(new Log(DateTime.Now,1, "Component", "Method", LogLevels.Debug, "Message 3"));
 			Assert.AreEqual(3, logger.Count);
-			Assert.AreEqual(true, logger.Logs.ElementAt(2).Contains("Message 3"));
+			Assert.AreEqual("Message 3", logger.Logs.ElementAt(2).Message);
 		}
 
 

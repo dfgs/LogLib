@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LogLib
 {
-	public class ConsoleLogger : BaseLogger
+	public class ConsoleLogger : TextLogger
 	{
 		private readonly object locker = new object();
 

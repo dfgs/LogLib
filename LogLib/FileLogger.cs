@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LogLib
 {
-	public sealed class FileLogger : BaseLogger,IDisposable
+	public sealed class FileLogger : TextLogger,IDisposable
 	{
 		private readonly object locker = new object();
 		private readonly StreamWriter writer;

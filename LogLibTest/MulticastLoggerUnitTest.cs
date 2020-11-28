@@ -20,7 +20,7 @@ namespace LogLibTest
 			DateTime dateTime;
 			MulticastLogger logger;
 			
-			logger = new MulticastLogger(new DefaultLogFormatter(),IPAddress.Parse("224.0.0.1"),2020);
+			logger = new MulticastLogger(IPAddress.Parse("224.0.0.1"),2020);
 
 			dateTime = DateTime.Now;
 			logger.Log(1, "Component", "Method", LogLevels.Debug, "Message");
@@ -36,25 +36,25 @@ namespace LogLibTest
 
 			receiver = new MockedMulticastReceiver(IPAddress.Parse("224.0.0.1"), 2021);
 
-			logger = new MulticastLogger(new DefaultLogFormatter(), IPAddress.Parse("224.0.0.1"), 2021);
+			logger = new MulticastLogger(IPAddress.Parse("224.0.0.1"), 2021);
 
 			dateTime = DateTime.Now;
 			logger.Log(1, "Component", "Method", LogLevels.Debug, "Message0");
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(1,receiver.Logs.Count);
-			Assert.AreEqual($"{dateTime} | Debug | 1 | Component | Method | Message0", receiver.Logs[0]);
+			Assert.AreEqual("Message0", receiver.Logs[0].Message);
 
 			dateTime = DateTime.Now;
 			logger.Log(1, "Component", "Method", LogLevels.Debug, "Message1");
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(2, receiver.Logs.Count);
-			Assert.AreEqual($"{dateTime} | Debug | 1 | Component | Method | Message1", receiver.Logs[1]);
+			Assert.AreEqual("Message1", receiver.Logs[1].Message);
 
 			dateTime = DateTime.Now;
 			logger.Log(new Log(dateTime,1, "Component", "Method", LogLevels.Debug, "Message2"));
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(3, receiver.Logs.Count);
-			Assert.AreEqual($"{dateTime} | Debug | 1 | Component | Method | Message2", receiver.Logs[2]);
+			Assert.AreEqual("Message2", receiver.Logs[2].Message);
 
 			logger.Dispose();
 			receiver.Dispose();
@@ -70,19 +70,19 @@ namespace LogLibTest
 
 			receiver = new MockedMulticastReceiver(IPAddress.Parse("224.0.0.1"), 2022);
 
-			logger = new MulticastLogger(new DefaultLogFormatter(), IPAddress.Parse("224.0.0.1"), 2022);
+			logger = new MulticastLogger( IPAddress.Parse("224.0.0.1"), 2022);
 
 			dateTime = DateTime.Now;
 			logger.Log(1, null,null, LogLevels.Debug, null);
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(1, receiver.Logs.Count);
-			Assert.AreEqual($"{dateTime} | Debug | 1 | Undefined | Undefined | Undefined", receiver.Logs[0]);
+			Assert.AreEqual(null, receiver.Logs[0].Message);
 
 			dateTime = DateTime.Now;
 			logger.Log(1, null, null, LogLevels.Debug, null);
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(2, receiver.Logs.Count);
-			Assert.AreEqual($"{dateTime} | Debug | 1 | Undefined | Undefined | Undefined", receiver.Logs[1]);
+			Assert.AreEqual(null, receiver.Logs[1].Message);
 
 			logger.Dispose();
 			receiver.Dispose();
@@ -98,19 +98,19 @@ namespace LogLibTest
 
 			receiver = new MockedMulticastReceiver(IPAddress.Parse("224.0.0.1"), 2023);
 
-			logger = new MulticastLogger(new DefaultLogFormatter(), IPAddress.Parse("224.0.0.1"), 2023);
+			logger = new MulticastLogger( IPAddress.Parse("224.0.0.1"), 2023);
 
 			dateTime = DateTime.Now;
-			logger.Log(1, "Component", "Method", new Exception("Message"));
+			logger.Log(1, "Component", "Method", new Exception("Message1"));
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(1, receiver.Logs.Count);
-			Assert.AreEqual($"{dateTime} | Error | 1 | Component | Method | Message", receiver.Logs[0]);
+			Assert.AreEqual("Message1", receiver.Logs[0].Message);
 
 			dateTime = DateTime.Now;
-			logger.Log(1, "Component", "Method", new Exception("Message"));
+			logger.Log(1, "Component", "Method", new Exception("Message2"));
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(2, receiver.Logs.Count);
-			Assert.AreEqual($"{dateTime} | Error | 1 | Component | Method | Message", receiver.Logs[1]);
+			Assert.AreEqual("Message2", receiver.Logs[1].Message);
 
 
 			logger.Dispose();

@@ -50,7 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LogUnitTest.cs" />
+    <Compile Include="Mocks\MockedUnicastReceiver.cs" />
     <Compile Include="Mocks\MockedMulticastReceiver.cs" />
+    <Compile Include="UnicastLoggerUnitTest.cs" />
     <Compile Include="MulticastLoggerUnitTest.cs" />
     <Compile Include="MemoryLoggerUnitTest.cs" />
     <Compile Include="ConsoleLoggerUnitTest.cs" />

@@ -9,27 +9,27 @@ using System.Threading.Tasks;
 
 namespace LogLib
 {
-	public sealed class MulticastLogger : BaseLogger,IDisposable
+	public sealed class UnicastLogger : BaseLogger,IDisposable
 	{
 		private UdpClient client;
 		private readonly object locker = new object();
-		private IPAddress multicastIPaddress;
+		private IPAddress remoteIPaddress;
 		private IPEndPoint remoteEndPoint ;
 
-		public MulticastLogger(IPAddress MulticastIPaddress, int Port) : base()
+		public UnicastLogger(IPAddress RemoteIPaddress, int Port) : base()
 		{
 			IPEndPoint localEndPoint;
 
-			this.multicastIPaddress = MulticastIPaddress;
+			this.remoteIPaddress = RemoteIPaddress;
 			localEndPoint = new IPEndPoint(IPAddress.Any, 0);
-			remoteEndPoint = new IPEndPoint(MulticastIPaddress, Port);
+			remoteEndPoint = new IPEndPoint(RemoteIPaddress, Port);
 
 			client = new UdpClient(AddressFamily.InterNetwork);
 			
 			client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
 			client.ExclusiveAddressUse = false;
 			//client.Client.Bind(localEndPoint);
-			client.JoinMulticastGroup(MulticastIPaddress, IPAddress.Any);
+			//client.JoinMulticastGroup(RemoteIPaddress, IPAddress.Any);
 
 		}
 
@@ -37,7 +37,7 @@ namespace LogLib
 
 		public void Dispose()
 		{
-			client.DropMulticastGroup(multicastIPaddress);
+			//client.DropMulticastGroup(remoteIPaddress);
 			client.Close();
 		}
 

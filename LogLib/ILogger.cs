@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LogLib
 {
-	public interface ILogger
+	public interface ILogger:IDisposable
 	{
 		/*ILogFormatter Formatter
 		{

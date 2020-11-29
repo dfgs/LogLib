@@ -15,6 +15,10 @@ namespace LogLib
 		{
 		
 		}
+		public virtual void Dispose()
+		{
+
+		}
 
 		public abstract void Log(Log Log);
 		public void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)

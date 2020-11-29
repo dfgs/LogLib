@@ -35,7 +35,7 @@ namespace LogLib
 
 		
 
-		public void Dispose()
+		public override void Dispose()
 		{
 			//client.DropMulticastGroup(remoteIPaddress);
 			client.Close();

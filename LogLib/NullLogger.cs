@@ -20,6 +20,11 @@ namespace LogLib
 		{
 
 		}
+
+		public void Dispose()
+		{
+
+		}
 		public void Log(Log Log)
 		{
 

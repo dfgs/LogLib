@@ -22,6 +22,11 @@ namespace LogLibTest.Mocks
 		{
 			Logs = new List<string>();
 		}
+
+		public void Dispose()
+		{
+
+		}
 		public void Log(Log Log)
 		{
 			Logs.Add(Formatter.Format(Log));

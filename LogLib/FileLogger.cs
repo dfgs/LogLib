@@ -20,7 +20,7 @@ namespace LogLib
 			writer = new StreamWriter(Stream);
 		}
 
-		public void Dispose()
+		public override void Dispose()
 		{
 			writer.Dispose();
 		}

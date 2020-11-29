@@ -13,31 +13,22 @@ namespace LogLib
 	{
 		private UdpClient client;
 		private readonly object locker = new object();
-		private IPAddress remoteIPaddress;
 		private IPEndPoint remoteEndPoint ;
 
 		public UnicastLogger(IPAddress RemoteIPaddress, int Port) : base()
 		{
 			IPEndPoint localEndPoint;
 
-			this.remoteIPaddress = RemoteIPaddress;
 			localEndPoint = new IPEndPoint(IPAddress.Any, 0);
 			remoteEndPoint = new IPEndPoint(RemoteIPaddress, Port);
 
 			client = new UdpClient(AddressFamily.InterNetwork);
-			
-			client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-			client.ExclusiveAddressUse = false;
-			//client.Client.Bind(localEndPoint);
-			//client.JoinMulticastGroup(RemoteIPaddress, IPAddress.Any);
-
 		}
 
 		
 
 		public override void Dispose()
 		{
-			//client.DropMulticastGroup(remoteIPaddress);
 			client.Close();
 		}
 

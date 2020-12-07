@@ -50,6 +50,11 @@ namespace LogLib
 			this.DateTime = DateTime; this.ComponentID = ComponentID;this.ComponentName = ComponentName;this.MethodName = MethodName;this.Level = Level;this.Message = Message;
 		}
 
+		public override string ToString()
+		{
+			return $"{DateTime} {Level} {ComponentID} {ComponentName ?? "Undefined"} {MethodName ?? "Undefined"} {Message ?? "Undefined"}";
+		}
+
 		public byte[] Serialize()
 		{
 			return Encoding.UTF8.GetBytes($"{DateTime.ToString("O")}|{Level}|{ComponentID}|{ComponentName??""}|{MethodName??""}|{Message ?? ""}");

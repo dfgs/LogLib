@@ -39,7 +39,7 @@ namespace LogLib
 			lock (locker)
 			{
 				buffer = Log.Serialize();
-				client.Send(buffer,buffer.Length,remoteEndPoint);
+				try { client.Send(buffer, buffer.Length, remoteEndPoint); } catch { }
 			}
 		}
 

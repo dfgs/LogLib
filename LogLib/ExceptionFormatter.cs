@@ -17,7 +17,7 @@ namespace LogLib
 			{
 				sb.Append("->");
 				sb.Append(ex.Message);
-				ex = ex.InnerException;
+				ex=ex.InnerException;
 			}
 			return sb.ToString();
 		}

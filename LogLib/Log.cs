@@ -70,7 +70,7 @@ namespace LogLib
 			parts = line.Split('|');
 			if (parts.Length != 6) throw new InvalidOperationException("Invalid buffer");
 
-			log = new Log();
+			log=new Log();
 			try
 			{
 				log.DateTime = DateTime.Parse(parts[0], CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);

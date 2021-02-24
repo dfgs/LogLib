@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITryActionAsync.cs" />
+    <Compile Include="ITryFunctionAsync.cs" />
+    <Compile Include="TryActionAsync.cs" />
+    <Compile Include="TryFunctionAsync.cs" />
     <Compile Include="UnicastLogger.cs" />
     <Compile Include="TextLogger.cs" />
     <Compile Include="BaseLogger.cs" />

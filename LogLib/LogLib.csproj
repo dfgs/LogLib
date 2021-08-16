@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ITryActionAsync.cs" />
     <Compile Include="ITryFunctionAsync.cs" />
+    <Compile Include="DebugLogger.cs" />
     <Compile Include="TryActionAsync.cs" />
     <Compile Include="TryFunctionAsync.cs" />
     <Compile Include="UnicastLogger.cs" />

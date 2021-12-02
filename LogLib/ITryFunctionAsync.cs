@@ -14,6 +14,7 @@ namespace LogLib
 
 		Task<T> OrThrow(ExceptionFactoryDelegate ExceptionFactory);
 
+
 		// out not permitted with async funcs
 		/*Task<bool> OrAlert(out T Result,string Message);
 		Task<bool> OrAlert(out T Result, Func<Exception, string> MessageFactory);

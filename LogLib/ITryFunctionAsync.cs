@@ -8,19 +8,21 @@ namespace LogLib
 {
 	public interface ITryFunctionAsync<T>:ITry
 	{
-		Task<T> OrThrow(string Message);
-		Task<T> OrThrow<TException>(string Message)
+		ITryFunctionAsync<T> Then(Action<T> Action);
+		Task OrThrow(string Message);
+		Task OrThrow<TException>(string Message)
 			where TException : TryException;
 
-		Task<T> OrThrow(ExceptionFactoryDelegate ExceptionFactory);
+		Task OrThrow(ExceptionFactoryDelegate ExceptionFactory);
+
+		Task<bool> OrAlert( string Message);
+		Task<bool> OrAlert( Func<Exception, string> MessageFactory);
+		Task<bool> OrWarn ( string Message);
+		Task<bool> OrWarn( Func<Exception, string> MessageFactory);
 
 
-		// out not permitted with async funcs
-		/*Task<bool> OrAlert(out T Result,string Message);
-		Task<bool> OrAlert(out T Result, Func<Exception, string> MessageFactory);
 
-		Task<bool> OrWarn(out T Result, string Message);
-		Task<bool> OrWarn(out T Result, Func<Exception, string> MessageFactory);//*/
+
 
 	}
 }

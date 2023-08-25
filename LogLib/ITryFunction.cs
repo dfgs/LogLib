@@ -8,17 +8,18 @@ namespace LogLib
 {
 	public interface ITryFunction<T>:ITry
 	{
-		T OrThrow(string Message);
-		T OrThrow<TException>(string Message)
+		ITryFunction<T> Then(Action<T> Action);
+		void OrThrow(string Message);
+		void OrThrow<TException>(string Message)
 			where TException : TryException;
 
-		T OrThrow(ExceptionFactoryDelegate ExceptionFactory);
+		void OrThrow(ExceptionFactoryDelegate ExceptionFactory);
 
-		bool OrAlert(out T Result,string Message);
-		bool OrAlert(out T Result, Func<Exception, string> MessageFactory);
+		bool OrAlert(string Message);
+		bool OrAlert( Func<Exception, string> MessageFactory);
 
-		bool OrWarn(out T Result, string Message);
-		bool OrWarn(out T Result, Func<Exception, string> MessageFactory);
+		bool OrWarn(string Message);
+		bool OrWarn(Func<Exception, string> MessageFactory);
 
 	}
 }

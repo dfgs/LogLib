@@ -8,26 +8,33 @@ namespace LogLib
 {
 	public class TryFunction<T> : Try,ITryFunction<T>
 	{
-		private Func<T> function;
+		private Func<T> first;
+		private Action<T> then;
 
 		public TryFunction(ILogger Logger, int ComponentID, string ComponentName, string MethodName, Func<T> Function) : base(Logger,ComponentID,ComponentName,MethodName)
 		{
-			this.function = Function;
+			this.first = Function;
+		}
+		public ITryFunction<T> Then(Action<T> Action)
+		{
+			this.then = Action;
+			return this;
+		}
+
+		public void OrThrow(string Message)
+		{
+			OrThrow((Ex, ComponentID, ComponentName, MethodName) => new TryException(Message, Ex, ComponentID, ComponentName, MethodName));
 		}
 
 
-		public T OrThrow(string Message)
+
+		public void OrThrow(ExceptionFactoryDelegate ExceptionFactory)
 		{
-			return OrThrow((Ex, ComponentID, ComponentName, MethodName) => new TryException(Message, Ex, ComponentID, ComponentName, MethodName));
-		}
-
-
-
-		public T OrThrow(ExceptionFactoryDelegate ExceptionFactory)
-		{
+			T result;
 			try
 			{
-				return function();
+				result= first();
+				if (then != null) then(result);
 			}
 			catch (Exception ex)
 			{
@@ -36,12 +43,14 @@ namespace LogLib
 			}
 		}
 
-		public T OrThrow<TException>(string Message)
+		public void OrThrow<TException>(string Message)
 			where TException : TryException
 		{
+			T result;
 			try
 			{
-				return function();
+				result = first();
+				if (then != null) then(result);
 			}
 			catch (Exception ex)
 			{
@@ -51,39 +60,41 @@ namespace LogLib
 		}
 
 
-		public bool OrAlert(out T Result, string Message)
+		public bool OrAlert( string Message)
 		{
-			return OrAlert(out Result, (Ex) => $"{Message}: {ExceptionFormatter.Format(Ex)}");
+			return OrAlert( (Ex) => $"{Message}: {ExceptionFormatter.Format(Ex)}");
 		}
-		public bool OrWarn(out T Result, string Message)
+		public bool OrWarn( string Message)
 		{
-			return OrWarn(out Result, (Ex) => $"{Message}: {ExceptionFormatter.Format(Ex)}");
+			return OrWarn((Ex) => $"{Message}: {ExceptionFormatter.Format(Ex)}");
 		}
 
-		public bool OrAlert(out T Result,Func<Exception, string> MessageFactory)
+		public bool OrAlert(Func<Exception, string> MessageFactory)
 		{
+			T result;
 			try
 			{
-				Result = function();
+				result = first();
+				if (then != null) then(result);
 				return true;
 			}
 			catch (Exception ex)
 			{
-				Result = default(T);
 				Logger.Log(ComponentID, ComponentName, MethodName, LogLevels.Error, MessageFactory(ex));
 				return false;
 			}
 		}
-		public bool OrWarn(out T Result, Func<Exception, string> MessageFactory)
+		public bool OrWarn(Func<Exception, string> MessageFactory)
 		{
+			T result;
 			try
 			{
-				Result = function();
+				result = first();
+				if (then != null) then(result);
 				return true;
 			}
 			catch (Exception ex)
 			{
-				Result = default(T);
 				Logger.Log(ComponentID, ComponentName, MethodName, LogLevels.Warning, MessageFactory(ex));
 				return false;
 			}

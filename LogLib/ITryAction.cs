@@ -8,6 +8,8 @@ namespace LogLib
 {
 	public interface ITryAction:ITry
 	{
+		ITryAction Then(Action Action);
+
 		void OrThrow(string Message);
 		void OrThrow<TException>(string Message)
 			where TException:TryException;

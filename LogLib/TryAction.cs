@@ -8,13 +8,19 @@ namespace LogLib
 {
 	public class TryAction : Try,ITryAction
 	{
-		private Action action;
+		private Action first;
+		private Action then;
 
 		public TryAction(ILogger Logger, int ComponentID, string ComponentName, string MethodName, Action Action) : base(Logger,ComponentID,ComponentName,MethodName)
 		{
-			this.action = Action;
+			this.first = Action;
 		}
 
+		public ITryAction Then(Action Action)
+		{
+			this.then = Action;
+			return this;
+		}
 
 		public void OrThrow(string Message)
 		{
@@ -26,7 +32,8 @@ namespace LogLib
 		{
 			try
 			{
-				action();
+				first();
+				if (then!=null) then();
 			}
 			catch (Exception ex)
 			{
@@ -39,7 +46,8 @@ namespace LogLib
 		{
 			try
 			{
-				action();
+				first();
+				if (then != null) then();
 			}
 			catch (Exception ex)
 			{
@@ -63,7 +71,8 @@ namespace LogLib
 		{
 			try
 			{
-				action();
+				first();
+				if (then != null) then();
 				return true;
 			}
 			catch (Exception ex)
@@ -76,7 +85,8 @@ namespace LogLib
 		{
 			try
 			{
-				action();
+				first();
+				if (then != null) then();
 				return true;
 			}
 			catch (Exception ex)
@@ -86,5 +96,6 @@ namespace LogLib
 			}
 		}
 
+		
 	}
 }

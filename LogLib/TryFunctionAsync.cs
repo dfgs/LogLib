@@ -6,28 +6,36 @@ using System.Threading.Tasks;
 
 namespace LogLib
 {
-	public class TryFunctionAsync<T> : Try,ITryFunctionAsync<T>
+	public class TryFunctionAsync<T> : Try, ITryFunctionAsync<T>
 	{
-		private Task<T> function;
+		private Task<T> first;
+		private Action<T> then;
 
 		public TryFunctionAsync(ILogger Logger, int ComponentID, string ComponentName, string MethodName, Task<T> Function) : base(Logger,ComponentID,ComponentName,MethodName)
 		{
-			this.function = Function;
+			this.first = Function;
+		}
+
+		public ITryFunctionAsync<T> Then(Action<T> Action)
+		{
+			this.then = Action;
+			return this;
+		}
+
+		public async Task OrThrow(string Message)
+		{
+			await OrThrow((Ex, ComponentID, ComponentName, MethodName) => new TryException(Message, Ex, ComponentID, ComponentName, MethodName));
 		}
 
 
-		public async Task<T> OrThrow(string Message)
+
+		public async Task OrThrow(ExceptionFactoryDelegate ExceptionFactory)
 		{
-			return await OrThrow((Ex, ComponentID, ComponentName, MethodName) => new TryException(Message, Ex, ComponentID, ComponentName, MethodName));
-		}
-
-
-
-		public async Task<T> OrThrow(ExceptionFactoryDelegate ExceptionFactory)
-		{
+			T result;
 			try
 			{
-				return await function;
+				result = await first;
+				if (then != null) then(result);
 			}
 			catch (Exception ex)
 			{
@@ -36,12 +44,14 @@ namespace LogLib
 			}
 		}
 
-		public async Task<T> OrThrow<TException>(string Message)
+		public async Task OrThrow<TException>(string Message)
 			where TException : TryException
 		{
+			T result;
 			try
 			{
-				return await function;
+				result = await first;
+				if (then != null) then(result);
 			}
 			catch (Exception ex)
 			{
@@ -50,44 +60,52 @@ namespace LogLib
 			}
 		}
 
+		
 
-		/*public async Task<bool> OrAlert(out T Result, string Message)
+		public async Task<bool> OrAlert( string Message)
 		{
-			return await OrAlert(out Result, (Ex) => $"{Message}: {ExceptionFormatter.Format(Ex)}");
+			return await OrAlert((Ex) => $"{Message}: {ExceptionFormatter.Format(Ex)}");
 		}
-		public bool OrWarn(out T Result, string Message)
+		public async Task<bool> OrWarn(string Message)
 		{
-			return OrWarn(out Result, (Ex) => $"{Message}: {ExceptionFormatter.Format(Ex)}");
+			return await OrWarn((Ex) => $"{Message}: {ExceptionFormatter.Format(Ex)}");
 		}
 
-		public bool OrAlert(out T Result,Func<Exception, string> MessageFactory)
+
+		public async Task<bool> OrAlert( Func<Exception, string> MessageFactory)
 		{
+			T result;
 			try
 			{
-				Result = function();
+				result = await first;
+				if (then != null) then(result);
 				return true;
 			}
 			catch (Exception ex)
 			{
-				Result = default(T);
 				Logger.Log(ComponentID, ComponentName, MethodName, LogLevels.Error, MessageFactory(ex));
 				return false;
 			}
 		}
-		public bool OrWarn(out T Result, Func<Exception, string> MessageFactory)
+
+
+		public async Task<bool> OrWarn( Func<Exception, string> MessageFactory)
 		{
+			T result;
 			try
 			{
-				Result = function();
+				result = await first;
+				if (then != null) then(result);
 				return true;
 			}
 			catch (Exception ex)
 			{
-				Result = default(T);
 				Logger.Log(ComponentID, ComponentName, MethodName, LogLevels.Warning, MessageFactory(ex));
 				return false;
 			}
-		}*/
+		}
+
+
 
 	}
 }

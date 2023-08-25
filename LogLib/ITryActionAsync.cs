@@ -8,6 +8,7 @@ namespace LogLib
 {
 	public interface ITryActionAsync:ITry
 	{
+		ITryActionAsync Then(Action Action);
 		Task OrThrow(string Message);
 		Task OrThrow<TException>(string Message)
 			where TException:TryException;

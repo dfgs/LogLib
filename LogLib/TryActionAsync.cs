@@ -8,13 +8,19 @@ namespace LogLib
 {
 	public class TryActionAsync : Try,ITryActionAsync
 	{
-		private Task action;
+		private Task first;
+		private Action then;
 
 		public TryActionAsync(ILogger Logger, int ComponentID, string ComponentName, string MethodName, Task Action) : base(Logger,ComponentID,ComponentName,MethodName)
 		{
-			this.action = Action;
+			this.first = Action;
 		}
 
+		public ITryActionAsync Then(Action Action)
+		{
+			this.then = Action;
+			return this;
+		}
 
 		public async Task OrThrow(string Message)
 		{
@@ -26,20 +32,23 @@ namespace LogLib
 		{
 			try
 			{
-				await action;
+				await first;
+				if (then != null) then();
 			}
 			catch (Exception ex)
 			{
 				Logger.Log(ComponentID, ComponentName, MethodName, LogLevels.Error, ExceptionFormatter.Format(ex));
 				throw ExceptionFactory(ex,ComponentID,ComponentName,MethodName);
 			}
+			then();
 		}
 		public async Task OrThrow<TException>(string Message)
 			where TException:TryException
 		{
 			try
 			{
-				await action;
+				await first;
+				if (then != null) then();
 			}
 			catch (Exception ex)
 			{
@@ -63,7 +72,8 @@ namespace LogLib
 		{
 			try
 			{
-				await action;
+				await first;
+				if (then != null) then();
 				return true;
 			}
 			catch (Exception ex)
@@ -76,7 +86,8 @@ namespace LogLib
 		{
 			try
 			{
-				await action;
+				await first;
+				if (then != null) then();
 				return true;
 			}
 			catch (Exception ex)

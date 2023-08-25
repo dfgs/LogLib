@@ -40,7 +40,7 @@ namespace LogLib
 				Logger.Log(ComponentID, ComponentName, MethodName, LogLevels.Error, ExceptionFormatter.Format(ex));
 				throw ExceptionFactory(ex,ComponentID,ComponentName,MethodName);
 			}
-			then();
+			
 		}
 		public async Task OrThrow<TException>(string Message)
 			where TException:TryException

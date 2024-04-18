@@ -36,16 +36,18 @@ namespace LogLib
 			private set;
 		}
 
-		
+		private List<Log> logs;
 
 		public DebugLogger():base()
 		{
+			logs = new List<Log>();
 		}
 
 		public override void Log(Log Log)
 		{
 			lock(locker)
 			{
+				logs.Add(Log);
 				switch(Log.Level)
 				{
 					case LogLevels.Debug:
@@ -68,6 +70,25 @@ namespace LogLib
 			}
 		}
 
+		public bool LogsContainKeyWords(LogLevels Level,params string[] KeyWords)
+		{
+			bool result;
+
+			foreach(Log log in logs.Where(item=>item.Level==Level))
+			{
+				result = true;
+				foreach(string key in KeyWords)
+				{
+					if (!log.Message.Contains(key))
+					{
+						result = false;
+						break;
+					}
+				}
+				if (result) return true;
+			}
+			return false;
+		}
 		
 
 	}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -29,12 +30,7 @@ namespace LogLib
 			get;
 			set;
 		}
-		public LogLevels Level
-		{
-			get;
-			set;
-		}
-		public string Message
+		public Message Message
 		{
 			get;
 			set;
@@ -45,51 +41,56 @@ namespace LogLib
 
 		}
 
-		public Log(DateTime DateTime,int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
+		public Log(DateTime DateTime,int ComponentID, string ComponentName, string MethodName, Message Message)
 		{
-			this.DateTime = DateTime; this.ComponentID = ComponentID;this.ComponentName = ComponentName;this.MethodName = MethodName;this.Level = Level;this.Message = Message;
+			this.DateTime = DateTime; this.ComponentID = ComponentID;this.ComponentName = ComponentName;this.MethodName = MethodName;this.Message = Message;
 		}
 
 		public override string ToString()
 		{
-			return $"{DateTime} {Level} {ComponentID} {ComponentName ?? "Undefined"} {MethodName ?? "Undefined"} {Message ?? "Undefined"}";
+			return $"{DateTime} {Message.Level} {ComponentID} {ComponentName ?? "Undefined"} {MethodName ?? "Undefined"} {Message.Content ?? "Undefined"}";
 		}
 
 		public byte[] Serialize()
 		{
-			return Encoding.UTF8.GetBytes($"{DateTime.ToString("O")}|{Level}|{ComponentID}|{ComponentName??""}|{MethodName??""}|{Message ?? ""}");
+			return Encoding.UTF8.GetBytes($"{DateTime.ToString("O")}|{Message.Level}|{ComponentID}|{ComponentName??""}|{MethodName??""}|{Message.Content ?? ""}");
 
 		}
 		public static Log Deserialize(byte[] Buffer)
 		{
 			string line;
 			string[] parts;
-			Log log;
+			DateTime dateTime;
+			LogLevels level; 
+			string content;
+			int componentID;
+			string componentName;
+			string methodName;
 
 			line = Encoding.UTF8.GetString(Buffer);
 			parts = line.Split('|');
 			if (parts.Length != 6) throw new InvalidOperationException("Invalid buffer");
 
-			log=new Log();
+			
 			try
 			{
-				log.DateTime = DateTime.Parse(parts[0], CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
-				log.Level = (LogLevels)Enum.Parse(typeof(LogLevels), parts[1]);
-				log.ComponentID = int.Parse(parts[2]);
-				log.ComponentName = parts[3];
-				log.MethodName = parts[4];
-				log.Message = parts[5];
+				dateTime = DateTime.Parse(parts[0], CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
+				level = (LogLevels)Enum.Parse(typeof(LogLevels), parts[1]);
+				componentID = int.Parse(parts[2]);
+				componentName = parts[3];
+				methodName = parts[4];
+				content = parts[5];
 
-				if (log.ComponentName == "") log.ComponentName = null;
-				if (log.MethodName == "") log.MethodName = null;
-				if (log.Message == "") log.Message = null;
+				if (componentName == "") componentName = null;
+				if (methodName == "") methodName = null;
+				if (content == "") content = null;
 			}
 			catch (Exception ex)
 			{
 				throw new InvalidOperationException("Invalid buffer",ex);
 			}
 
-			return log;
+			return new Log(dateTime,componentID,componentName,methodName,new Message(level,content));
 		}
 
 

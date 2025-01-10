@@ -29,9 +29,9 @@ namespace LogLibTest
 			Console.SetOut(writer);
 
 			dateTime = DateTime.Now;
-			logger.Log(1, "Component", "Method", LogLevels.Debug, "Message");
+			logger.Log(1, "Component", "Method", Message.Debug("Message"));
 
-			logger.Log(new Log(dateTime,1, "Component", "Method", LogLevels.Debug, "Message"));
+			logger.Log(new Log(dateTime,1, "Component", "Method", Message.Debug("Message")));
 
 			writer.Flush();
 			stream.Seek(0, SeekOrigin.Begin);
@@ -55,7 +55,7 @@ namespace LogLibTest
 			Console.SetOut(writer);
 
 			dateTime = DateTime.Now;
-			logger.Log(1, null, null, LogLevels.Debug, null);
+			logger.Log(1, null, null, Message.Debug(null));
 			writer.Flush();
 			stream.Seek(0, SeekOrigin.Begin);
 			Assert.AreEqual($"{dateTime} | Debug | 1 | Undefined | Undefined | Undefined", reader.ReadLine());

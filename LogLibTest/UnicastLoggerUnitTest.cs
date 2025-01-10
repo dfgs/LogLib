@@ -23,7 +23,7 @@ namespace LogLibTest
 			logger = new UnicastLogger(IPAddress.Parse("127.0.0.1"), 3020);
 
 			dateTime = DateTime.Now;
-			logger.Log(1, "Component", "Method", LogLevels.Debug, "Message");
+			logger.Log(1, "Component", "Method", Message.Debug("Message"));
 
 			logger.Dispose();
 		}
@@ -39,22 +39,22 @@ namespace LogLibTest
 			logger = new UnicastLogger(IPAddress.Parse("127.0.0.1"), 3021);
 
 			dateTime = DateTime.Now;
-			logger.Log(1, "Component", "Method", LogLevels.Debug, "Message0");
+			logger.Log(1, "Component", "Method", Message.Debug("Message0"));
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(1,receiver.Logs.Count);
-			Assert.AreEqual("Message0", receiver.Logs[0].Message);
+			Assert.AreEqual("Message0", receiver.Logs[0].Message.Content);
 
 			dateTime = DateTime.Now;
-			logger.Log(1, "Component", "Method", LogLevels.Debug, "Message1");
+			logger.Log(1, "Component", "Method", Message.Debug("Message1"));
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(2, receiver.Logs.Count);
-			Assert.AreEqual("Message1", receiver.Logs[1].Message);
+			Assert.AreEqual("Message1", receiver.Logs[1].Message.Content);
 
 			dateTime = DateTime.Now;
-			logger.Log(new Log(dateTime,1, "Component", "Method", LogLevels.Debug, "Message2"));
+			logger.Log(new Log(dateTime,1, "Component", "Method", Message.Debug("Message2")));
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(3, receiver.Logs.Count);
-			Assert.AreEqual("Message2", receiver.Logs[2].Message);
+			Assert.AreEqual("Message2", receiver.Logs[2].Message.Content);
 
 			logger.Dispose();
 			receiver.Dispose();
@@ -73,16 +73,16 @@ namespace LogLibTest
 			logger = new UnicastLogger( IPAddress.Parse("127.0.0.1"), 3022);
 
 			dateTime = DateTime.Now;
-			logger.Log(1, null,null, LogLevels.Debug, null);
+			logger.Log(1, null,null, Message.Debug(null));
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(1, receiver.Logs.Count);
-			Assert.AreEqual(null, receiver.Logs[0].Message);
+			Assert.AreEqual(null, receiver.Logs[0].Message.Content);
 
 			dateTime = DateTime.Now;
-			logger.Log(1, null, null, LogLevels.Debug, null);
+			logger.Log(1, null, null, Message.Debug(null));
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(2, receiver.Logs.Count);
-			Assert.AreEqual(null, receiver.Logs[1].Message);
+			Assert.AreEqual(null, receiver.Logs[1].Message.Content);
 
 			logger.Dispose();
 			receiver.Dispose();
@@ -104,13 +104,13 @@ namespace LogLibTest
 			logger.Log(1, "Component", "Method", new Exception("Message1"));
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(1, receiver.Logs.Count);
-			Assert.AreEqual("Message1", receiver.Logs[0].Message);
+			Assert.AreEqual("Message1", receiver.Logs[0].Message.Content);
 
 			dateTime = DateTime.Now;
 			logger.Log(1, "Component", "Method", new Exception("Message2"));
 			receiver.ReceivedEvent.WaitOne();
 			Assert.AreEqual(2, receiver.Logs.Count);
-			Assert.AreEqual("Message2", receiver.Logs[1].Message);
+			Assert.AreEqual("Message2", receiver.Logs[1].Message.Content);
 
 
 			logger.Dispose();

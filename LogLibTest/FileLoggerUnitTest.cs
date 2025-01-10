@@ -24,8 +24,8 @@ namespace LogLibTest
 				logger = new FileLogger(new DefaultLogFormatter(),stream);
 
 				dateTime = DateTime.Now;
-				logger.Log(1, "Component", "Method", LogLevels.Debug, "Message");
-				logger.Log(new Log(dateTime,1, "Component", "Method", LogLevels.Debug, "Message"));
+				logger.Log(1, "Component", "Method", Message.Debug("Message"));
+				logger.Log(new Log(dateTime,1, "Component", "Method", Message.Debug( "Message")));
 			}
 			using (FileStream stream = new FileStream("log.txt", FileMode.Open))
 			{
@@ -46,7 +46,7 @@ namespace LogLibTest
 				logger = new FileLogger(new DefaultLogFormatter(), stream);
 
 				dateTime = DateTime.Now;
-				logger.Log(1, null, null, LogLevels.Debug, null);
+				logger.Log(1, null, null, Message.Debug(null));
 			}
 			using (FileStream stream = new FileStream("log.txt", FileMode.Open))
 			{

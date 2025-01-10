@@ -11,7 +11,7 @@ namespace LogLibTest.Mocks
 	{
 		public string Format(Log Log)
 		{
-			return Log.Level.ToString() +": "+ Log.Message;
+			return Log.Message.Level.ToString() +": "+ Log.Message.Content;
 		}
 	}
 }

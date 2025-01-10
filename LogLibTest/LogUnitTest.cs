@@ -19,14 +19,14 @@ namespace LogLibTest
 			Log log;
 
 			dateTime = DateTime.Now;
-			log = new Log(dateTime,1, "ComponentName", "MethodName", LogLevels.Error, "Message");
+			log = new Log(dateTime,1, "ComponentName", "MethodName", Message.Error("Message"));
 
 			Assert.AreEqual(dateTime, log.DateTime);
 			Assert.AreEqual(1, log.ComponentID);
 			Assert.AreEqual("ComponentName", log.ComponentName);
 			Assert.AreEqual("MethodName", log.MethodName);
-			Assert.AreEqual(LogLevels.Error, log.Level);
-			Assert.AreEqual("Message", log.Message);
+			Assert.AreEqual(LogLevels.Error, log.Message.Level);
+			Assert.AreEqual("Message", log.Message.Content);
 
 		}
 		[TestMethod]
@@ -37,25 +37,25 @@ namespace LogLibTest
 			byte[] buffer;
 
 			dateTime = DateTime.Now;
-			log = new Log(dateTime, 1, "ComponentName", "MethodName", LogLevels.Error, "Message");
+			log = new Log(dateTime, 1, "ComponentName", "MethodName", Message.Error("Message"));
 			buffer = log.Serialize();
 			result = Log.Deserialize(buffer);
 			Assert.AreEqual(log.DateTime, result.DateTime);
 			Assert.AreEqual(log.ComponentID, result.ComponentID);
 			Assert.AreEqual(log.ComponentName, result.ComponentName);
-			Assert.AreEqual(log.Level, result.Level);
+			Assert.AreEqual(log.Message.Level, result.Message.Level);
 			Assert.AreEqual(log.MethodName, result.MethodName);
-			Assert.AreEqual(log.Message, result.Message);
+			Assert.AreEqual(log.Message.Content, result.Message.Content);
 
-			log = new Log(dateTime, 1, null, null, LogLevels.Error, null);
+			log = new Log(dateTime, 1, null, null, Message.Error(null));
 			buffer = log.Serialize();
 			result = Log.Deserialize(buffer);
 			Assert.AreEqual(log.DateTime, result.DateTime);
 			Assert.AreEqual(log.ComponentID, result.ComponentID);
 			Assert.AreEqual(log.ComponentName, result.ComponentName);
-			Assert.AreEqual(log.Level, result.Level);
+			Assert.AreEqual(log.Message.Level, result.Message.Level);
 			Assert.AreEqual(log.MethodName, result.MethodName);
-			Assert.AreEqual(log.Message, result.Message);
+			Assert.AreEqual(log.Message.Content, result.Message.Content);
 		}
 		[TestMethod]
 		public void ShouldNotDeserialize()

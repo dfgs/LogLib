@@ -29,7 +29,7 @@ namespace LogLib
 		{
 
 		}
-		public void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
+		public void Log(int ComponentID, string ComponentName, string MethodName, Message Message)
 		{
 		}
 

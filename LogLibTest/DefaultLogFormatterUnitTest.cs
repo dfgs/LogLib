@@ -17,7 +17,7 @@ namespace LogLibTest
 			formatter = new DefaultLogFormatter();
 			dateTime = DateTime.Now;
 
-			Assert.AreEqual($"{dateTime} | Debug | 1 | Component | Method | Message", formatter.Format(new Log(dateTime, 1, "Component", "Method", LogLevels.Debug, "Message")));
+			Assert.AreEqual($"{dateTime} | Debug | 1 | Component | Method | Message", formatter.Format(new Log(dateTime, 1, "Component", "Method", Message.Debug("Message"))));
 		}
 		[TestMethod]
 		public void ShouldFormatWithNullInput()
@@ -29,7 +29,7 @@ namespace LogLibTest
 			formatter = new DefaultLogFormatter();
 			dateTime =  DateTime.Now;
 
-			Assert.AreEqual($"{dateTime} | Debug | 1 | Undefined | Undefined | Undefined", formatter.Format(new Log(dateTime, 1, null, null, LogLevels.Debug, null)));
+			Assert.AreEqual($"{dateTime} | Debug | 1 | Undefined | Undefined | Undefined", formatter.Format(new Log(dateTime, 1, null, null, Message.Debug(null))));
 		}
 
 	}

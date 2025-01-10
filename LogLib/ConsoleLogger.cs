@@ -23,7 +23,7 @@ namespace LogLib
 			lock(locker)
 			{
 				colorBackup = Console.ForegroundColor;
-				switch(Log.Level)
+				switch(Log.Message.Level)
 				{
 					case LogLevels.Debug:
 						Console.ForegroundColor = ConsoleColor.Gray;

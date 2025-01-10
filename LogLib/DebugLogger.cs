@@ -48,7 +48,7 @@ namespace LogLib
 			lock(locker)
 			{
 				logs.Add(Log);
-				switch(Log.Level)
+				switch(Log.Message.Level)
 				{
 					case LogLevels.Debug:
 						DebugCount++;
@@ -74,12 +74,12 @@ namespace LogLib
 		{
 			bool result;
 
-			foreach(Log log in logs.Where(item=>item.Level==Level))
+			foreach(Log log in logs.Where(item=>item.Message.Level==Level))
 			{
 				result = true;
 				foreach(string key in KeyWords)
 				{
-					if (!log.Message.Contains(key))
+					if (!log.Message.Content.Contains(key))
 					{
 						result = false;
 						break;

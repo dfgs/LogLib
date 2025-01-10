@@ -21,26 +21,26 @@ namespace LogLib
 		}
 
 		public abstract void Log(Log Log);
-		public void Log(int ComponentID, string ComponentName, string MethodName, LogLevels Level, string Message)
+		public void Log(int ComponentID, string ComponentName, string MethodName, Message Message)
 		{
 			Log log;
-			log = new Log(DateTime.Now, ComponentID, ComponentName, MethodName, Level, Message);
+			log = new Log(DateTime.Now, ComponentID, ComponentName, MethodName,  Message);
 			Log(log);
 		}
 
 		public void Log(int ComponentID, string ComponentName, string MethodName, Exception ex)
 		{
-			Log(ComponentID, ComponentName, MethodName, LogLevels.Error, ex.Message);
+			Log(ComponentID, ComponentName, MethodName, Message.Error(ex.Message));
 		}
 
 		public void LogEnter(int ComponentID, string ComponentName, string MethodName)
 		{
-			Log(ComponentID, ComponentName, MethodName, LogLevels.Debug, "Enter");
+			Log(ComponentID, ComponentName, MethodName, Message.Debug("Enter"));
 		}
 
 		public void LogLeave(int ComponentID, string ComponentName, string MethodName)
 		{
-			Log(ComponentID, ComponentName, MethodName, LogLevels.Debug, "Leave");
+			Log(ComponentID, ComponentName, MethodName, Message.Debug("Leave"));
 		}
 
 		

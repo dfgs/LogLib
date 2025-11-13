@@ -18,6 +18,8 @@ namespace LogLib
 		void Log(Log Log);
 		void Log(int ComponentID, string ComponentName, string MethodName, Message Message);
 		void Log(int ComponentID, string ComponentName, string MethodName, Exception ex);
+
+		void Rotate();
 	}
 
 }

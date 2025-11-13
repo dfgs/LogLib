@@ -21,6 +21,9 @@ namespace LogLib
 		}
 
 		public abstract void Log(Log Log);
+
+		public abstract void Rotate();
+
 		public void Log(int ComponentID, string ComponentName, string MethodName, Message Message)
 		{
 			Log log;

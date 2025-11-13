@@ -45,8 +45,14 @@ namespace LogLib
 				Console.ForegroundColor = colorBackup;
 			}
 		}
+		public override void Rotate()
+		{
+			lock (locker)
+			{
+				Console.Clear();
+			}
+		}
 
-		
 
 	}
 }

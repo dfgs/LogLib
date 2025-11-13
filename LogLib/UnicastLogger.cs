@@ -43,5 +43,11 @@ namespace LogLib
 			}
 		}
 
+		public override void Rotate()
+		{
+			// NOP
+		}
+
+
 	}
 }

@@ -29,6 +29,10 @@ namespace LogLib
 		{
 
 		}
+		public void Rotate()
+		{
+			
+		}
 		public void Log(int ComponentID, string ComponentName, string MethodName, Message Message)
 		{
 		}

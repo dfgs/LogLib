@@ -90,6 +90,10 @@ namespace LogLib
 			return false;
 		}
 		
+		public override void Rotate()
+		{
+			logs.Clear();
+		}
 
 	}
 }

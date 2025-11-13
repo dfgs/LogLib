@@ -10,7 +10,9 @@ namespace LogLib
 	public sealed class FileLogger : TextLogger,IDisposable
 	{
 		private readonly object locker = new object();
-		private readonly StreamWriter writer;
+		private string fileName;
+		
+		private StreamWriter writer;
 
 		public FileLogger(ILogFormatter Formatter, string FileName) : this(Formatter, new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Read))
 		{
@@ -34,6 +36,15 @@ namespace LogLib
 			}
 		}
 
-		
+		public override void Rotate()
+		{
+			lock (locker)
+			{
+				writer.BaseStream.Close();
+				writer.Close();
+				System.IO.File.Move(fileName, $"{fileName}-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}");
+				writer = new StreamWriter(new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+			}
+		}
 	}
 }

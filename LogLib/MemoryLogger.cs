@@ -32,8 +32,14 @@ namespace LogLib
 				logs.Add( Log);
 			}
 		}
+		public override void Rotate()
+		{
+			lock (locker)
+			{
+				logs.Clear();
+			}
+		}
 
-		
 
 	}
 }

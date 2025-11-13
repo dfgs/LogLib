@@ -16,8 +16,9 @@ namespace LogLib
 
 		public FileLogger(ILogFormatter Formatter, string FileName) : this(Formatter, new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Read))
 		{
+			this.fileName = FileName;
 		}
-		public FileLogger(ILogFormatter Formatter, Stream Stream) : base(Formatter)
+		private FileLogger(ILogFormatter Formatter, Stream Stream) : base(Formatter)
 		{
 			writer = new StreamWriter(Stream);
 		}

@@ -11,12 +11,14 @@ namespace LogLib
 	{
 		private readonly object locker = new object();
 		private string fileName;
-		
+		private int numberOfFilesToKeep ;
+
 		private StreamWriter writer;
 
-		public FileLogger(ILogFormatter Formatter, string FileName) : this(Formatter, new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Read))
+		public FileLogger(ILogFormatter Formatter, string FileName, int NumberOfFilesToKeep) : this(Formatter, new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Read))
 		{
 			this.fileName = FileName;
+			this.numberOfFilesToKeep = NumberOfFilesToKeep;
 		}
 		private FileLogger(ILogFormatter Formatter, Stream Stream) : base(Formatter)
 		{
@@ -42,8 +44,14 @@ namespace LogLib
 			lock (locker)
 			{
 				writer.BaseStream.Close();
-				writer.Close();
-				System.IO.File.Move(fileName, $"{fileName}-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}");
+				System.IO.File.Move(fileName, $"{fileName}-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}{System.IO.Path.GetExtension(fileName)}");
+
+				string[] files=System.IO.Directory.GetFiles(System.IO.Path.GetFullPath(fileName), $"{System.IO.Path.GetFileNameWithoutExtension(fileName)}*{System.IO.Path.GetExtension(fileName)}");
+				foreach (string file in files.OrderByDescending(f => f).Skip(10))
+				{
+					System.IO.File.Delete(file);
+				}
+
 				writer = new StreamWriter(new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
 			}
 		}

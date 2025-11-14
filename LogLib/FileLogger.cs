@@ -45,11 +45,14 @@ namespace LogLib
 			{
 				writer.BaseStream.Close();
 				System.IO.File.Move(fileName, $"{fileName}-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}{System.IO.Path.GetExtension(fileName)}");
-
-				string[] files=System.IO.Directory.GetFiles(System.IO.Path.GetFullPath(fileName), $"{System.IO.Path.GetFileNameWithoutExtension(fileName)}*{System.IO.Path.GetExtension(fileName)}");
-				foreach (string file in files.OrderByDescending(f => f).Skip(10))
+				string pattern = $"{System.IO.Path.GetFileNameWithoutExtension(fileName)}*{System.IO.Path.GetExtension(fileName)}";
+				string[] files=System.IO.Directory.GetFiles(System.IO.Path.GetDirectoryName(fileName),pattern);
+				if (files.Length >= numberOfFilesToKeep)
 				{
-					System.IO.File.Delete(file);
+					foreach (string file in files.OrderByDescending(f => f).Skip(numberOfFilesToKeep))
+					{
+						System.IO.File.Delete(file);
+					}
 				}
 
 				writer = new StreamWriter(new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
